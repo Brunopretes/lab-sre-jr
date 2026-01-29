@@ -1,20 +1,24 @@
 import os
 
-# CONFIGURAÇÕES
 IP_SERVIDOR = "192.168.0.80"
-USUARIO = "sre" # coloque o seu usuario do ubuntu aqui
+USUARIO = "sre"
+CONTAINER = "meu-servidor"
 
-def verificar_status():
-    print(f"--- Verificando Servidor: {IP_SERVIDOR} ---")
-    status = os.system(f"ping -c 1 {IP_SERVIDOR} > /dev/null 2>&1")
+def checar_e_recuperar():
+    print(f"--- Verificando Saúde do Container: {CONTAINER} ---")
     
-    if status == 0:
-        print("[STATUS] Online! ✅")
-        # Comando SSH para rodar o comando 'uptime' remotamente
-        print("[INFO] Tempo de atividade no servidor:")
-        os.system(f"ssh {USUARIO}@{IP_SERVIDOR} 'uptime -p'")
+    # Comando para verificar se o container está 'running'
+    cmd_check = f"ssh {USUARIO}@{IP_SERVIDOR} \"sudo docker inspect -f '{{{{.State.Running}}}}' {CONTAINER}\" 2>/dev/null"
+    
+    status = os.popen(cmd_check).read().strip()
+    
+    if status == "true":
+        print(f"[OK] {CONTAINER} está operando normalmente. ✅")
     else:
-        print("[STATUS] Offline! ❌")
+        print(f"[ALERTA] {CONTAINER} está CAÍDO! Tentando recuperar... 🛠️")
+        # Comando para tentar iniciar o container novamente
+        os.system(f"ssh {USUARIO}@{IP_SERVIDOR} 'sudo docker start {CONTAINER}'")
+        print(f"[INFO] Comando de reinicialização enviado.")
 
 if __name__ == "__main__":
-    verificar_status()
+    checar_e_recuperar()
