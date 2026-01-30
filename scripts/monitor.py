@@ -4,7 +4,7 @@ import urllib.parse
 import ssl
 
 # ================= CONFIGURAÇÕES =================
-IP_SERVIDOR = "192.168.0.80"
+IP_SERVIDOR = "000.000.0.00"
 USUARIO = "sre"
 CONTAINER = "meu-servidor"
 
