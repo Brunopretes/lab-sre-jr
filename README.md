@@ -1,18 +1,31 @@
-# Laboratório SRE Junior - End-to-End
+# 🛠️ Laboratório SRE Junior: Monitoramento & Auto-Healing
 
-Este repositório contém a jornada de aprendizado focado em infraestrutura, automação e observabilidade.
+Este repositório contém os artefatos do meu laboratório prático de Site Reliability Engineering (SRE). O objetivo foi estabilizar um ambiente Linux, gerenciar serviços em containers e implementar uma automação de recuperação de desastres com notificações em tempo real.
 
-## 🛠 Tecnologias Utilizadas até agora:
-- **Linux:** Administração de servidores Ubuntu e Mint.
-- **Redes:** Configuração de SSH Key (acesso sem senha) e Troubleshooting de rede (IPv4 vs IPv6).
-- **Docker:** Gerenciamento de containers, imagens e limpeza de ambiente.
-- **Python:** Scripting para automação de tarefas e monitoramento.
+## 🚀 O que foi implementado
 
-## 🚀 O que já foi implementado:
-1. **Infraestrutura:** Conexão segura entre Estação de Trabalho e Servidor de Produção.
-2. **Dockerização:** Deploy de um servidor Nginx via Docker.
-3. **Auto-Healing:** Script Python (`monitor.py`) que detecta se o container caiu e o reinicia automaticamente via SSH.
+### 1. Gestão de Infraestrutura (Linux)
+- **Otimização de Memória:** Configuração de **1GB de Swap** no Ubuntu Server para evitar falhas de *Out-Of-Memory* (OOM) em ambientes limitados.
+- **Docker Management:** Deploy de servidor Nginx utilizando transferência de imagens via `docker save/load` para contornar restrições de rede.
 
-## 📈 Próximos Passos:
-- Instalação do Prometheus e Grafana para métricas reais.
-- Configuração de CI/CD com GitHub Actions.
+### 2. Automação de Auto-Healing (Python)
+Desenvolvimento de um script sentinela (`monitor.py`) que:
+- Realiza checagem de saúde (Health Check) do container via SSH.
+- **Auto-Recuperação:** Reinicia automaticamente o serviço caso seja detectada uma queda.
+- **Resiliência:** Implementado com timeouts e tratamento de exceções para não travar a esteira de automação.
+
+### 3. Observabilidade e Alerta
+- **Integração com API do Telegram:** Notificações push instantâneas enviadas ao celular do engenheiro em caso de incidentes e recuperações bem-sucedidas.
+
+### 4. CI/CD (GitHub Actions)
+- Pipeline automatizado para **Linting** do código Python, garantindo que nenhum erro de sintaxe seja enviado para produção.
+
+## 🛠️ Tecnologias Utilizadas
+- **Linux:** Ubuntu Server & Linux Mint
+- **Containerização:** Docker
+- **Linguagem:** Python 3 (Bibliotecas nativas: `urllib`, `os`, `ssl`)
+- **CI/CD:** GitHub Actions
+- **Comunicação:** Telegram Bot API
+
+---
+*Este é um projeto de estudos focado nos fundamentos de SRE e DevOps.*
